@@ -113,13 +113,12 @@ def generate(text, image_files, image_folder, tgt_lang="English"):
 
 def eval_ocrmt():
     """Evaluate OCRMT task"""
-    output_path = f"/mnt/data/users/liamding/data/liu_SFT/MTI/evaluations/ocrmt/ocr_mt/"
-    Path(output_path).mkdir(parents=True, exist_ok=True)
+    final_output_path = f"{output_path}/ocrmt/ocr_mt/"
+    Path(final_output_path).mkdir(parents=True, exist_ok=True)
     results = {}
-    image_folder = "/mnt/data/users/liamding/data/dataset/OCRMT30K-refine/whole_image_v2/"
+    image_folder = f"{root}/OCRMT30K-refine/whole_image_v2/"
     img_source = json.load(
-        open("/mnt/data/users/liamding/data/dataset/OCRMT30K-refine/original_data/original_test_1000.json", "r",
-             encoding="utf-8"))
+        open(f"{root}/OCRMT30K-refine/original_data/original_test_1000.json", "r", encoding="utf-8"))
 
     for img, item in tqdm(img_source.items()):
         text = ""
@@ -141,18 +140,18 @@ def eval_ocrmt():
             "mt": ocr_outputs
         }
 
-    json.dump(results, open(f"{output_path}/original-new.json", "w"), ensure_ascii=False, indent=4)
+    json.dump(results, open(f"{final_output_path}/{output_name}", "w"), ensure_ascii=False, indent=4)
 
 
 def eval_mtit6(lang="en2zh"):
     """Evaluate MTIT6 task"""
     config = {
-        "en2zh": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/en2zh/", "Chinese"),
-        "zh2en": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/zh2en/", "English"),
-        "ko2zh": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/ko2zh/", "Chinese"),
-        "zh2ko": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/zh2ko/", "Korean"),
-        "ja2zh": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/ja2zh/", "Chinese"),
-        "zh2ja": ("/mnt/data/users/liamding/data/dataset/AnyTrans-refine/images/zh2ja/", "Japanese")
+        "en2zh": (f"{root}/AnyTrans-refine/images/en2zh/", "Chinese"),
+        "zh2en": (f"{root}/AnyTrans-refine/images/zh2en/", "English"),
+        "ko2zh": (f"{root}/AnyTrans-refine/images/ko2zh/", "Chinese"),
+        "zh2ko": (f"{root}/AnyTrans-refine/images/zh2ko/", "Korean"),
+        "ja2zh": (f"{root}/AnyTrans-refine/images/ja2zh/", "Chinese"),
+        "zh2ja": (f"{root}/AnyTrans-refine/images/zh2ja/", "Japanese")
     }
 
     image_folder, tgt_lang = config[lang]
@@ -167,10 +166,10 @@ def eval_mtit6(lang="en2zh"):
         'zh2ja': '200'
     }
 
-    output_path = f"/mnt/data/users/liamding/data/liu_SFT/MTI/evaluations/mtit6/{lang}/ocr_mt"
-    ref_path = f"/mnt/data/users/liamding/data/dataset/AnyTrans-refine/{lang}_{ref_suffix[lang]}.json"
+    final_output_path = f"{output_path}/mtit6/{lang}/ocr_mt/"
+    ref_path = f"{root}/AnyTrans-refine/{lang}_{ref_suffix[lang]}.json"
 
-    Path(output_path).mkdir(parents=True, exist_ok=True)
+    Path(final_output_path).mkdir(parents=True, exist_ok=True)
     ref_data = json.load(open(ref_path, "r", encoding="utf-8"))
     results = {}
 
@@ -200,7 +199,7 @@ def eval_mtit6(lang="en2zh"):
             "mt": mt_output
         }
 
-    json.dump(results, open(f"{output_path}/original-new.json", "w"), ensure_ascii=False, indent=4)
+    json.dump(results, open(f"{final_output_path}/{output_name}", "w"), ensure_ascii=False, indent=4)
 
 
 def eval_mit10(lang="en2zh"):
@@ -219,14 +218,14 @@ def eval_mit10(lang="en2zh"):
     tgt_lang = lang_name_map[tgt_lang_code]
 
     # Base directory
-    base_folder = "/mnt/data/users/liamding/data/dataset/MIT-10M/data/small"
+    base_folder = f"{root}/MIT-10M/data/small"
 
     # Source JSON file path
-    img_source_path = f"/mnt/data/users/liamding/data/dataset/MIT-10M/test/test_{src_lang}.json"
+    img_source_path = f"{root}/MIT-10M/test/test_{src_lang}.json"
 
     # Output directory path
-    output_path = f"/mnt/data/users/liamding/data/liu_SFT/MTI/evaluations/mit10/{lang}/ocr_mt/"
-    Path(output_path).mkdir(parents=True, exist_ok=True)
+    final_output_path = f"{output_path}/mit10/{lang}/ocr_mt/"
+    Path(final_output_path).mkdir(parents=True, exist_ok=True)
 
     # Read source JSON file
     with open(img_source_path, "r", encoding="utf-8") as f:
@@ -301,11 +300,11 @@ def eval_mit10(lang="en2zh"):
 
     # Save results
     json.dump(results,
-              open(f"{output_path}/original-new.json", "w"),
+              open(f"{final_output_path}/{output_name}", "w"),
               ensure_ascii=False,
               indent=4)
 
-    print(f"Completed {lang}. Results saved to {output_path}/original-new.json")
+    print(f"Completed {lang}. Results saved to {final_output_path}/{output_name}")
     print(f"Successfully processed images: {len(results)}")
 
 
@@ -349,8 +348,11 @@ def shuffle_without_fixed_positions(img_source):
 
 
 if __name__ == "__main__":
-    # Model configuration
-    model_id = "/mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500/v0-20250318-023742/checkpoint-4875-merged"
+    # User-configurable settings
+    model_id = "" # Model path,like "output/v0-20250318-023742/checkpoint-4875"
+    root = ""  # Base directory for all datasets,like "/mnt/data/users/liamding/data/dataset"
+    output_path = ""  # Base directory for output,like "/mnt/data/users/liamding/data/liu_SFT/MTI/evaluations"
+    output_name = ""  # Output filename，like original.json
     device = "cuda"
 
     # Load model and processor
@@ -366,22 +368,19 @@ if __name__ == "__main__":
     model.eval()
 
     # Uncomment the evaluation tasks you want to run
-
+    
     # MIT10 evaluation - evaluate all language combinations
-    eval_mit10_all("en")  # English to all other languages
-    eval_mit10_all("de")  # German to all other languages
-    eval_mit10_all("es")  # Spanish to all other languages
-    eval_mit10_all("fr")  # French to all other languages
-    eval_mit10_all("it")  # Italian to all other languages
-    eval_mit10_all("ja")  # Japanese to all other languages
-    eval_mit10_all("pt")  # Portuguese to all other languages
-    eval_mit10_all("zh")  # Chinese to all other languages
+    eval_mit10_all("en")  # English to all other 13 languages
+    eval_mit10_all("de")  # German to all other 13 languages
+    eval_mit10_all("es")  # Spanish to all other 13 languages
+    eval_mit10_all("fr")  # French to all other 13 languages
+    eval_mit10_all("it")  # Italian to all other 13 languages
+    eval_mit10_all("ja")  # Japanese to all other 13 languages
+    eval_mit10_all("pt")  # Portuguese to all other 13 languages
+    eval_mit10_all("zh")  # Chinese to all other 13 languages
 
-    # MIT10 evaluation - To evaluate specific language pairs, uncomment:
+    # MIT10 evaluation - To evaluate specific language pairs
     #eval_mit10("en2zh")
-
-    # OCRMT evaluation
-    eval_ocrmt()
 
     # MTIT6 evaluation
     eval_mtit6(lang="en2zh")
@@ -391,4 +390,5 @@ if __name__ == "__main__":
     eval_mtit6(lang="zh2ja")
     eval_mtit6(lang="zh2ko")
 
-    
+    # OCRMT evaluation
+    eval_ocrmt()
