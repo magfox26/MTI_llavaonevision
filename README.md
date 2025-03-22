@@ -20,6 +20,7 @@ local-dir：指定下载模型保存到本地的目录
 - `dataset`和`val_dataset`训练集和验证集路径
 - `--deepspeed`zero2路径，在`./swift/swift/llm/ds_config`下
 - `--output_dir`指定输出路径及文件夹名称
+
 2.开始训练 `bash mit10m_train.sh`(train_loss等图片默认保存在`--output_dir`下的images文件夹下)
 3.训练完成后进行lora权重合并，更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的`merge_lora.sh`中的设置：
 - `CUDA_VISIBLE_DEVICES` 指定卡号
