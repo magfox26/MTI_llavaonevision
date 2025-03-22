@@ -46,6 +46,7 @@ new_height = int(round(float(height) * (float(current_width) / float(width)), 7)
 - `root` 数据存放的根目录
 - `output_path` 输出的根目录
 - `output_name` 输出文件名称
+  
 2.开始推理`CUDA_VISIBLE_DEVICES=0 python inference.py`
 
 
