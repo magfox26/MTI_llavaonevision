@@ -1,7 +1,7 @@
 # MTI_llavaonevision
 
 ### 1.环境安装
-使用pip进行安装：
+安装ms-swift：
 ```bash
 pip install 'ms-swift'
 pip install av deepspeed
