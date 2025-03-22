@@ -21,18 +21,18 @@ swift sft \
               /mnt/data/users/liamding/data/dataset/MIT-10M/train/mit10_sample1/pt_val_10.json \
               /mnt/data/users/liamding/data/dataset/MIT-10M/train/mit10_sample1/zh_val_10.json \
 --num_train_epochs 5 \
---per_device_train_batch_size 4 \
 --learning_rate 2e-5 \
+--per_device_train_batch_size 4 \
+--gradient_accumulation_steps 8 \
 --lora_rank 16 \
 --lora_alpha 32 \
 --target_modules all-linear \
---gradient_accumulation_steps 8 \
 --eval_steps 500 \
 --save_strategy epoch \
+--logging_steps 10 \
 --lora_dropout 0.2 \
 --warmup_ratio 0.1 \
---logging_steps 10 \
 --max_length 4096 \
---deepspeed /mnt/data/users/liamding/data/liu_SFT/swift/swift/llm/ds_config/zero2.json \
 --dataloader_num_workers 4 \
+--deepspeed /mnt/data/users/liamding/data/liu_SFT/swift/swift/llm/ds_config/zero2.json \
 --output_dir /mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500
