@@ -30,7 +30,7 @@ local-dir：指定下载模型保存到本地的目录
 
 4.开始合并 `bash merge_lora.sh`（没指定输出路径的话默认保存在checkpoint同一目录下名为`checkpoint-xx-merged`）
 
-**开始训练时如果遇到报错：**<font color="red">TypeError: type Tensor doesn't define __round__ method</font>
+**开始训练时如果遇到报错：**<font color="red">`TypeError: type Tensor doesn't define __round__ method</font>`
 找到报错的地方`./swift_env/lib/python3.10/site-packages/transformers/models/llava_onevision/processing_llava_onevision.py`并修改：  
 ```bash
 new_width = int(round(float(width) * (float(current_height) / float(height)), 7))
