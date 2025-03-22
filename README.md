@@ -28,6 +28,7 @@ huggingface-cli download llava-hf/llava-onevision-qwen2-7b-si-hf --local-dir ./l
 - `CUDA_VISIBLE_DEVICES` 指定卡号
 - `--ckpt_dir`checkpoint-xx保存的位置
 - `--output_dir`指定输出路径及文件夹名称（没指定的话默认保存在checkpoint同一目录下名为`checkpoint-xx-merged`）
+  
 4.开始合并 `bash merge_lora.sh`
 
 **开始训练时如果遇到报错：**<font color="red">`TypeError: type Tensor doesn't define __round__ method</font>`  
