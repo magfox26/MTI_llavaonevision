@@ -46,7 +46,7 @@ def generate(text, image_files, image_folder, tgt_lang="English"):
     else:
         return "No image provided"
 
-    # Define system and user prompts
+    # Define prompts
     system_prompt = """Please strictly follow the steps below to process the text in the image:
 1. **Comprehensive Recognition**: Extract all visible text elements in the image (including words, numbers, symbols, special characters)
 2. **Translatable text**: Accurate translation into target language
@@ -63,7 +63,7 @@ def generate(text, image_files, image_folder, tgt_lang="English"):
 4. Only output the translated text in the target language
 """
 
-    # Define conversation with the new prompt template
+    # Define conversation with prompt template
     conversation = [
         {
             "role": "system",
@@ -80,7 +80,6 @@ def generate(text, image_files, image_folder, tgt_lang="English"):
 
     prompt = processor.apply_chat_template(conversation, add_generation_prompt=True)
 
-    # Process inputs
     inputs = processor(images=raw_image, text=prompt, return_tensors='pt').to(device, torch.float16)
 
     # Generate output
@@ -123,11 +122,9 @@ def eval_ocrmt():
              encoding="utf-8"))
 
     for img, item in tqdm(img_source.items()):
-        # Generate model output
         text = ""
         ocr_outputs = generate(text, [img.strip()], image_folder, tgt_lang="English")
 
-        # Process text consistently
         def process_text(text_list):
             parts = []
             for text in text_list:
@@ -245,10 +242,10 @@ def eval_mit10(lang="en2zh"):
         # Try multiple possible path formats
         possible_paths = []
 
-        # 1. Direct use of img_key (might be full path)
+        # Direct use of img_key (might be full path)
         possible_paths.append(os.path.join(base_folder, img_key))
 
-        # 2. Use first two characters as subdirectory
+        # Use first two characters as subdirectory
         if '_' in img_filename:
             img_id = img_filename.split('_')[1].split('.')[0]
             if len(img_id) >= 4:
@@ -256,7 +253,7 @@ def eval_mit10(lang="en2zh"):
                 subdir2 = img_id[2:4]
                 possible_paths.append(os.path.join(base_folder, src_lang, subdir1, subdir2, img_filename))
 
-        # 3. Use standard format (omit language prefix)
+        # Use standard format (omit language prefix)
         if '_' in img_filename:
             img_base = img_filename.split('_')[1]
             img_id = img_base.split('.')[0]
@@ -351,7 +348,6 @@ def shuffle_without_fixed_positions(img_source):
     return shuffled_imgs
 
 
-# Main execution
 if __name__ == "__main__":
     # Model configuration
     model_id = "/mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500/v0-20250318-023742/checkpoint-4875-merged"
@@ -372,27 +368,27 @@ if __name__ == "__main__":
     # Uncomment the evaluation tasks you want to run
 
     # MIT10 evaluation - evaluate all language combinations
-    # Evaluate English to all other languages
-    #eval_mit10_all("en")  # Evaluates en2zh, en2ja, en2ko, ...
-
-    eval_mit10("en2tr")
-    eval_mit10("en2th")
-    eval_mit10("en2hi")
-    eval_mit10("en2ar")
-    # Evaluate Chinese to all other languages
-    eval_mit10_all("zh")  # Evaluates zh2en, zh2ja, zh2ko, ...
-
-    # Evaluate other source languages
+    eval_mit10_all("en")  # English to all other languages
     eval_mit10_all("de")  # German to all other languages
     eval_mit10_all("es")  # Spanish to all other languages
     eval_mit10_all("fr")  # French to all other languages
-    #eval_mit10_all("it")  # Italian to all other languages
-    #eval_mit10_all("ja")  # Japanese to all other languages
-    #eval_mit10_all("pt")  # Portuguese to all other languages
+    eval_mit10_all("it")  # Italian to all other languages
+    eval_mit10_all("ja")  # Japanese to all other languages
+    eval_mit10_all("pt")  # Portuguese to all other languages
+    eval_mit10_all("zh")  # Chinese to all other languages
 
-    # To evaluate specific language pairs, uncomment:
-    #eval_mit10("de2ar")
+    # MIT10 evaluation - To evaluate specific language pairs, uncomment:
+    #eval_mit10("en2zh")
 
-    # Other evaluation tasks
-    #eval_ocrmt()
-    #eval_mtit6(lang="en2zh")
+    # OCRMT evaluation
+    eval_ocrmt()
+
+    # MTIT6 evaluation
+    eval_mtit6(lang="en2zh")
+    eval_mtit6(lang="ja2zh")
+    eval_mtit6(lang="ko2zh")
+    eval_mtit6(lang="zh2en")
+    eval_mtit6(lang="zh2ja")
+    eval_mtit6(lang="zh2ko")
+
+    
