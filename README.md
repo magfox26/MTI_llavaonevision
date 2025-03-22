@@ -27,6 +27,7 @@ local-dir：指定下载模型保存到本地的目录
 
 - `CUDA_VISIBLE_DEVICES` 指定卡号
 - `--ckpt_dir`checkpoint-xx保存的位置
+
 4. 开始合并 `bash merge_lora.sh`(没指定输出路径的话默认保存在checkpoint同一目录下名为`checkpoint-xx-merged`)
 
 开始训练时如果遇到报错：TypeError: type Tensor doesn't define __round__ method  
