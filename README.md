@@ -13,7 +13,7 @@ huggingface-cli download llava-hf/llava-onevision-qwen2-7b-si-hf --local-dir ./l
 ```
 `local-dir`指定下载模型保存到本地的目录
 ### 3.训练
-1.更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的‘mit10m_train.sh’ 中的设置：  
+1.更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/train)文件夹下的‘mit10m_train.sh’ 中的设置：  
 - `NPROC_PER_NODE` 使用多少张卡
 - `CUDA_VISIBLE_DEVICES` 指定卡号
 - `--model`下载好的模型路径
@@ -23,7 +23,7 @@ huggingface-cli download llava-hf/llava-onevision-qwen2-7b-si-hf --local-dir ./l
 
 2.开始训练 `bash mit10m_train.sh`(train_loss等图片默认保存在`--output_dir`下的images文件夹下)  
 
-3.训练完成后进行lora权重合并，更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的`merge_lora.sh`中的设置：  
+3.训练完成后进行lora权重合并，更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/train)文件夹下的`merge_lora.sh`中的设置：  
 
 - `CUDA_VISIBLE_DEVICES` 指定卡号
 - `--ckpt_dir`checkpoint-xx保存的位置
@@ -40,7 +40,7 @@ new_width = int(round(float(width) * (float(current_height) / float(height)), 7)
 new_height = int(round(float(height) * (float(current_width) / float(width)), 7))
 ```
 ### 4.推理
-更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的‘inference.py’ 中的设置：   
+更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference)文件夹下的‘inference.py’ 中的设置：   
 - `model_id` 指定模型路径
 - `root` 数据存放的根目录
 - `output_path` 输出的根目录
