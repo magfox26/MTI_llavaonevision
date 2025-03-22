@@ -380,7 +380,7 @@ if __name__ == "__main__":
     eval_mit10_all("zh")  # Chinese to all other 13 languages
 
     # MIT10 evaluation - To evaluate specific language pairs
-    #eval_mit10("en2zh")
+    #eval_mit10("en2zh")  # English to Chinese
 
     # MTIT6 evaluation
     eval_mtit6(lang="en2zh")
