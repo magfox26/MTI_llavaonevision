@@ -16,9 +16,11 @@ local-dir：指定下载模型保存到本地的目录
 在[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的‘mit10m_train.sh’  
 
 更改`mit10m_train.sh`中的设置：  
-- 项目1
-- 项目2
-- 项目3
+- `NPROC_PER_NODE` 使用多少张卡
+- `CUDA_VISIBLE_DEVICES` 指定卡号
+- `--model`
+- `dataset`和`val_dataset`
+- `--model`
 
 
 
