@@ -28,9 +28,17 @@ local-dir：指定下载模型保存到本地的目录
 - `CUDA_VISIBLE_DEVICES` 指定卡号
 - `--ckpt_dir`checkpoint-xx保存的位置
 4. 开始合并 `bash merge_lora.sh`(没指定输出路径的话默认保存在checkpoint同一目录下名为`checkpoint-xx-merged`)
-  
+
+开始训练时如果遇到报错：TypeError: type Tensor doesn't define __round__ method  
+找到报错的地方`./swift_env/lib/python3.10/site-packages/transformers/models/llava_onevision/processing_llava_onevision.py`并修改：  
+```bash
+new_width = int(round(float(width) * (float(current_height) / float(height)), 7))
+```
+```bash
+new_height = int(round(float(height) * (float(current_width) / float(width)), 7))
+```
 ### 4.推理
-更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的‘inference.py’ 中的设置：  
+更改[inference_code](https://github.com/magfox26/MTI_llavaonevision/tree/main/inference_code)文件夹下的‘inference.py’ 中的设置： 
 
 
 
