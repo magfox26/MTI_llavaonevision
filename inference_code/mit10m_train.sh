@@ -37,4 +37,4 @@ swift sft \
 --max_length 4096 \
 --deepspeed /mnt/data/users/liamding/data/liu_SFT/swift/swift/llm/ds_config/zero2.json \
 --dataloader_num_workers 4 \
---output_dir /mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500_new1
+--output_dir /mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500
