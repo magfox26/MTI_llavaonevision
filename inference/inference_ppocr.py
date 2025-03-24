@@ -153,14 +153,13 @@ Please translate the text in the image into {tgt_lang}. {text}"""
 
 
 def get_ocr_path(task, lang_pair=None):
-    """Get OCR file path based on task and language pair"""
     if task == "ocrmt":
-        return os.path.join(ocr_root, "ppocr_ocrmt.json")
+        return os.path.join(ocr_root, "OCRMT30K-refine/ppocr_ocrmt.json")
     elif task == "mtit6":
-        return os.path.join(ocr_root, f"ppocr_{lang_pair}.json")
+        return os.path.join(ocr_root, f"AnyTrans-refine/ppocr_{lang_pair}.json")
     elif task == "mit10":
         src_lang = lang_pair.split('2')[0] if lang_pair else None
-        return os.path.join(ocr_root, f"ppocr_mit10_{src_lang}.json")
+        return os.path.join(ocr_root, f"MIT10M-refine/ppocr/ppocr_mit10_{src_lang}.json")
     else:
         print(f"Unknown task: {task}")
         return None
@@ -168,7 +167,7 @@ def get_ocr_path(task, lang_pair=None):
 
 def eval_ocrmt():
     """Evaluate OCRMT task"""
-    final_output_path = f"{output_path}/ocrmt/given_ocr_VL/"
+    final_output_path = f"{output_path}/ocrmt/given_ocr_VL"
     Path(final_output_path).mkdir(parents=True, exist_ok=True)
     results = {}
     image_folder = f"{root}/OCRMT30K-refine/whole_image_v2/"
@@ -227,7 +226,7 @@ def eval_mtit6(lang="en2zh"):
         'zh2ja': '200'
     }
 
-    final_output_path = f"{output_path}/mtit6/{lang}/given_ocr_VL/"
+    final_output_path = f"{output_path}/mtit6/{lang}/given_ocr_VL"
     ref_path = f"{root}/AnyTrans-refine/{lang}_{ref_suffix[lang]}.json"
 
     Path(final_output_path).mkdir(parents=True, exist_ok=True)
@@ -294,7 +293,7 @@ def eval_mit10(lang="en2zh"):
     img_source_path = f"{root}/MIT-10M/test/test_{src_lang}.json"
 
     # Output directory path
-    final_output_path = f"{output_path}/mit10/{lang}/given_ocr_VL/"
+    final_output_path = f"{output_path}/mit10/{lang}/given_ocr_VL"
     Path(final_output_path).mkdir(parents=True, exist_ok=True)
 
     # Read source JSON file
