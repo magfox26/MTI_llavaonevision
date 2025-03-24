@@ -287,10 +287,10 @@ def eval_mit10(lang="en2zh"):
         print(f"Found OCR file: {ocr_json_path}")
 
     # Base directory
-    base_folder = f"{root}/MIT-10M/data/small"
+    base_folder = f"{root}/MIT10M-refine/data/small"
 
     # Source JSON file path
-    img_source_path = f"{root}/MIT-10M/test/test_{src_lang}.json"
+    img_source_path = f"{root}/MIT10M-refine/test/test_{src_lang}.json"
 
     # Output directory path
     final_output_path = f"{output_path}/mit10/{lang}/given_ocr_VL"
