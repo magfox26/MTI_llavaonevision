@@ -12,7 +12,6 @@ from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 
 def load_image(image_file):
-    """Load image from URL or local file"""
     if image_file.startswith("http"):
         response = requests.get(image_file, stream=True)
         image = Image.open(response.raw).convert("RGB")
@@ -22,7 +21,6 @@ def load_image(image_file):
 
 
 def load_images(image_files, image_folder):
-    """Load multiple images and return them"""
     base_folder = Path(image_folder)
     images = []
     for image_file in image_files:
@@ -35,7 +33,6 @@ def load_images(image_files, image_folder):
 
 
 def generate(text, image_files, image_folder, ocr_text, tgt_lang="English"):
-    """Generate translation for the given image(s) with OCR reference"""
     if isinstance(image_files, list) and len(image_files) > 0:
         if image_folder:
             # Load multiple images from a folder
@@ -88,7 +85,6 @@ Please translate the text in the image into {tgt_lang}"""
         # Extract only the text after "assistant"
         translation = result.split("assistant", 1)[1].strip()
     else:
-        # Fallback if the format is different
         translation = result.strip()
 
     del inputs, output
@@ -162,7 +158,7 @@ def shuffle_without_fixed_positions(img_source):
 
 
 if __name__ == "__main__":
-    model_id = "/mnt/data/users/liamding/data/liu_SFT/outcome_mit10m_sample500/v0-20250318-023742/checkpoint-4875-merged"  # Model path
+    model_id = ""  # Model path
     root = "/mnt/data/users/liamding/data/dataset"  # Base directory for dataset100
     output_path = "/mnt/data/users/liamding/data/liu_SFT/dataset100/evaluations/llava_onevision_random500"  # Output path
     output_name = "all.json"  # Output filename
